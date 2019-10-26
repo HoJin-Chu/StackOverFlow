@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    use VotableTrait;
+
     protected $fillable = ['title', 'body'];
 
     public function user() {
@@ -74,4 +76,5 @@ class Question extends Model
     {
       return $this->favorites->count();
     }
+
 }
