@@ -45,21 +45,39 @@ export default {
             .then(response => {
                 this.editing = false
                 this.bodyHtml = response.data.body_html
-                alert(response.data.message)
+                this.$toast.success(response.data.message, "Success", {timeout: 3000})
             })
             .catch(error => {
-                alert(error.response.data.message)
+                this.$toast.error(error.response.data.message, "Error", {timeout: 3000})
             })
         },
         destroy() {
-            if(confirm('Are you sure')) {
-                axios.delete(this.endpoint)
-                .then(response => {
-                    $(this.$el).fadeOut(500, () => {
-                        alert(response.data.message)
-                    })
-                })
-            }
+            this.$toast.question('정말 삭제하시겠어요?', "답글,", {
+                timeout: 5000,
+                close: false,
+                overlay: true,
+                displayMode: 'once',
+                id: 'question',
+                zindex: 999,
+                title: 'Hey',
+                position: 'center',
+                buttons: [
+                    ['<button><b>네</b></button>', (instance, toast) => {
+                        axios.delete(this.endpoint)
+                        .then(response => {
+                            $(this.$el).fadeOut(200, () => {
+                                this.$toast.success(response.data.message, "Success", {timeout: 3000})
+                            })
+                        })
+                        instance.hide({ transitionOut: 'flipOutX' }, toast, 'button');
+
+                    }, true],
+                    ['<button>아니요</button>', (instance, toast) => {
+                        instance.hide({ transitionOut: 'fadeOutRight' }, toast, 'button');
+                    }],
+                ],
+            });
+
         },
     },
 }
