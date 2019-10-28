@@ -1,0 +1,52 @@
+<template>
+    <div>
+
+
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['answer'],
+    data() {
+        return {
+            editing: false,
+            body: this.answer.body,
+            bodyHtml: this.answer.body_html,
+            id: this.answer.id,
+            questionId: this.answer.question_id,
+            beforeEditCache: null
+        }
+    },
+
+    computed: {
+        isInvalid() {
+            return this.body.length < 10;
+        }
+    },
+
+    methods: {
+        edit() {
+            this.beforeEditCache = this.body
+            this.editing = true
+        },
+        cancel() {
+            this.body = this.beforeEditCache
+            this.editing = false
+        },
+        update() {
+            axios.patch(`/questions/${this.questionId}/answers/${this.id}`, {
+                body: this.body
+            })
+            .then(response => {
+                this.editing = false
+                this.bodyHtml = response.data.body_html
+                alert(response.data.message)
+            })
+            .catch(error => {
+                alert(error.response.data.message)
+            })
+        }
+    },
+}
+</script>
