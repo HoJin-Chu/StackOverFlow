@@ -10,8 +10,9 @@
                     <form @submit.prevent="create">
                         <!-- csrf 부트스르랩도트에서 처리 -->
                         <div class="form-group">
-                            <textarea v-model="body" class="form-control" name="body" rows="7" placeholder="10자 이상" required></textarea>
-
+                            <m-editor :body="body" name="new-answer">
+                                <textarea v-model="body" class="form-control" name="body" rows="7" placeholder="10자 이상" required></textarea>
+                            </m-editor>
                         </div>
                         <div class="form-group">
                             <button type="submit" :disabled="isInvalid" class="btn btn-lg btn-outline-primary">Submit</button>
@@ -24,8 +25,11 @@
 </template>
 
 <script>
+import MEditor from './MEditor'
+
 export default {
     props: ['questionId'],
+    components: { MEditor },
     data() {
         return {
             body: ''

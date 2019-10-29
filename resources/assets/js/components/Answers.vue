@@ -30,9 +30,11 @@
 <script>
 import Answer from './Answer'
 import NewAnswer from './NewAnswer'
+import highlight from '../mixin/highlight'
 
 export default {
     props: ['question'],
+    mixins: [highlight],
     components: {
         Answer,
         NewAnswer
@@ -42,6 +44,7 @@ export default {
             questionId: this.question.id,
             count: this.question.answers_count,
             answers: [],
+            answerIds: [],
             nextUrl: null
         }
     },
@@ -55,11 +58,18 @@ export default {
     },
     methods: {
         fetch(endpoint) {
+            this.answerIds = []
             axios.get(endpoint)
             .then(({data}) => { // data만 뽑음
                 // console.log(response)
+                this.answerIds = data.data.map(a => a.id)
                 this.answers.push(...data.data) // 배열 합치기
                 this.nextUrl = data.next_page_url
+            })
+            .then(() => {
+                this.answerIds.forEach(id => {
+                    this.highlight(`answer-${id}`)
+                })
             })
         },
         remove(index) {
@@ -69,6 +79,9 @@ export default {
         add(answer) {
             this.answers.push(answer)
             this.count++
+            this.$nextTick(() => {
+                this.highlight(`answer-${answer.id}`)
+            })
         }
     },
 }
