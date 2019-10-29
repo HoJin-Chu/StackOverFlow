@@ -10,6 +10,10 @@
     @endphp
 @endif
 
+@php
+    $formId = $name . "-" . $model->id;
+    $formAction = "/{$firstURISegment}/{$model->id}/vote";
+@endphp
 
 <div class="d-flex flex-column vote-controls">
     <a title="This {{ $name  }} is useful"
@@ -39,9 +43,7 @@
     @if($model instanceof App\Question)
         <favorite :question="{{ $model }}"></favorite>
     @elseif($model instanceof App\Answer)
-        @include('shared._accept', [
-            'model' => $model
-        ])
+        <accept :answer="{{ $model }}" ></accept>
     @endif
 
 </div>
