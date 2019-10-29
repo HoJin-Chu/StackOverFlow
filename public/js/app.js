@@ -52105,9 +52105,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 position: 'center',
                 buttons: [['<button><b>네</b></button>', function (instance, toast) {
                     axios.delete(_this2.endpoint).then(function (response) {
-                        $(_this2.$el).fadeOut(200, function () {
-                            _this2.$toast.success(response.data.message, "Success", { timeout: 3000 });
-                        });
+                        _this2.$emit('deleted');
                     });
                     instance.hide({ transitionOut: 'flipOutX' }, toast, 'button');
                 }, true], ['<button>아니요</button>', function (instance, toast) {
@@ -52986,7 +52984,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -53001,6 +52999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Answer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Answer__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+//
 //
 //
 //
@@ -53063,6 +53062,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 (_answers = _this.answers).push.apply(_answers, _toConsumableArray(data.data)); // 배열 합치기
                 _this.nextUrl = data.next_page_url;
             });
+        },
+        remove: function remove(index) {
+            this.answers.splice(index, 1);
+            this.count--;
         }
     }
 });
@@ -53089,10 +53092,15 @@ var render = function() {
                 _vm._v(" "),
                 _c("hr"),
                 _vm._v(" "),
-                _vm._l(_vm.answers, function(answer) {
+                _vm._l(_vm.answers, function(answer, index) {
                   return _c("Answer", {
                     key: answer.id,
-                    attrs: { answer: answer }
+                    attrs: { answer: answer },
+                    on: {
+                      deleted: function($event) {
+                        return _vm.remove(index)
+                      }
+                    }
                   })
                 }),
                 _vm._v(" "),

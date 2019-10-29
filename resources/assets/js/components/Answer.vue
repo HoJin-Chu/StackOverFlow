@@ -93,9 +93,7 @@ export default {
                     ['<button><b>네</b></button>', (instance, toast) => {
                         axios.delete(this.endpoint)
                         .then(response => {
-                            $(this.$el).fadeOut(200, () => {
-                                this.$toast.success(response.data.message, "Success", {timeout: 3000})
-                            })
+                            this.$emit('deleted')
                         })
                         instance.hide({ transitionOut: 'flipOutX' }, toast, 'button');
 

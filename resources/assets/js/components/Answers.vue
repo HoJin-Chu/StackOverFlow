@@ -8,7 +8,8 @@
                     </div>
                     <hr>
                     <Answer
-                    v-for="answer in answers"
+                    @deleted="remove(index)"
+                    v-for="(answer, index) in answers"
                     :answer="answer"
                     :key="answer.id">
                     </Answer>
@@ -54,6 +55,10 @@ export default {
                 this.answers.push(...data.data) // 배열 합치기
                 this.nextUrl = data.next_page_url
             })
+        },
+        remove(index) {
+            this.answers.splice(index, 1)
+            this.count--
         }
     },
 }
