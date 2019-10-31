@@ -39,20 +39,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function getToken(Request $request)
-    {
-        $request->request->add([
-          'grant_type' => 'password',
-          'client_id' => 4,
-          'client_secret' => 'Z0KeHUZRhrECpVPmGa8aME6ksl8Un34gkMx9kWuu',
-          'username' => $request->username,
-          'password' => $request->password
-        ]);
+    // public function getToken(Request $request)
+    // {
+    //     $request->request->add([
+    //       'grant_type' => 'password',
+    //       'client_id' => 4,
+    //       'client_secret' => 'Z0KeHUZRhrECpVPmGa8aME6ksl8Un34gkMx9kWuu',
+    //       'username' => $request->username,
+    //       'password' => $request->password
+    //     ]);
 
-        $requestToken = Request::create(env('APP_URL').'/oauth/token', 'post');
-        $response = Route::dispatch($requestToken);
+    //     $requestToken = Request::create(env('APP_URL').'/oauth/token', 'post');
+    //     $response = Route::dispatch($requestToken);
 
-        return $response;
-    }
+    //     return $response;
+    // }
 
 }
