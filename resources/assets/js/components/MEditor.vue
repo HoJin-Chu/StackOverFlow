@@ -23,8 +23,10 @@
 import MarkdownIt from 'markdown-it'
 import prism from 'markdown-it-prism'
 import autosize from 'autosize'
+import "prismjs/components/prism-java"
+import "prismjs/components/prism-python"
 
-const md = new MarkdownIt()
+const md = new Ma`rkdownIt()
 md.use(prism)
 
 export default {
